@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using edu_development_REST.ViewModels;
+using System.ComponentModel.DataAnnotations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -44,7 +45,15 @@ namespace edu_development_REST.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUserById(Guid id)
         {
-            return Ok(await _unitOfWork.UserRepository.GetUserByIdAsync(id));
+            try
+            {
+                var result = await _unitOfWork.UserRepository.GetUserByIdAsync(id);
+                return StatusCode(200, result);
+            }
+            catch (ValidationException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         /// <summary>
@@ -56,12 +65,16 @@ namespace edu_development_REST.Controllers
         [HttpPost()]
         public async Task<ActionResult> AddUser(UserViewModel model)
         {
-            _unitOfWork.UserRepository.Add(model);
-            if (await _unitOfWork.Complete())
+            try
             {
-                return StatusCode(201);
+                _unitOfWork.UserRepository.Add(model);
+                await _unitOfWork.Complete();
+                return StatusCode(201, model);
             }
-            return StatusCode(500, "Det gick inte att spara ner ny användare");
+            catch (ValidationException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         /// <summary>
@@ -73,14 +86,19 @@ namespace edu_development_REST.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(Guid id)
         {
-            var user = await _unitOfWork.UserRepository.GetUserByIdAsync(id);
 
-            if (user == null) return NotFound($"Hittade ingen användare med id: {id}");
+            try
+            {
+                var user = await _unitOfWork.UserRepository.GetUserByIdAsync(id);
+                _unitOfWork.UserRepository.Delete(user);
+                var result = await _unitOfWork.UserRepository.SaveAllAsync();
+                return StatusCode(200);
 
-            _unitOfWork.UserRepository.Delete(user);
-
-            if (await _unitOfWork.UserRepository.SaveAllAsync()) return NoContent();
-            return StatusCode(500, "Det gick inte att ta bort användaren");
+            }
+            catch (ValidationException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         /// <summary>
@@ -93,11 +111,16 @@ namespace edu_development_REST.Controllers
         [HttpPatch("{id}")]
         public async Task<ActionResult> UpdateUser(Guid id, UserViewModel updatedUser)
         {
-
-            _unitOfWork.UserRepository.Update(updatedUser, id);
-
-            if (await _unitOfWork.UserRepository.SaveAllAsync()) return NoContent();
-            return StatusCode(500, "Det gick inte att uppdatera användaren");
+            try
+            {
+                _unitOfWork.UserRepository.Update(updatedUser, id);
+                await _unitOfWork.UserRepository.SaveAllAsync();
+                return StatusCode(200, updatedUser);
+            }
+            catch (ValidationException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
     }

@@ -16,12 +16,19 @@ namespace edu_development_REST.Entities
         /// <example>bc3fd254-3eea-4da8-8f45-dbd69030c306</example>
         [Required]
         [Key]
-        public Guid CourseCode { get; set; }
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// A unique Course Code
+        /// </summary>
+        /// <example>MATMAT02A-KD</example>
+        [Required]
+        public string CourseCode { get; set; }
 
         /// <summary>
         /// A human readable course name, using only alphanumeric characters
         /// </summary>
-        /// <example>Anders123</example>
+        /// <example>English 101</example>
         [Required]
         [RegularExpression(@"^[a-zA-Z0-9]*$",
             ErrorMessage = "First name can only contain alphanumeric characters")]

@@ -26,7 +26,7 @@ namespace edu_development_REST.Controllers
         }
 
         /// <summary>
-        /// Fetches all posts.
+        /// Fetches all courses.
         /// </summary>
         /// <response code="200">Returns all Courses</response>
         [HttpGet]
@@ -36,21 +36,18 @@ namespace edu_development_REST.Controllers
         }
 
         /// <summary>
-        /// Fetches a Post based on the given Course Code.
+        /// Fetches a Course based on the given Id.
         /// </summary>
-        /// <param name="courseCode">This is an Course Code of an existing Course</param>
-        /// <response code="200">Returns the Post with the given Id</response>
-        /// <response code="404">No Post with the given Id found </response>
+        /// <param name="id">This is an Id of an existing Course</param>
+        /// <response code="200">Returns the Course with the given Id</response>
+        /// <response code="204">No Course with the given Id found </response>
         [HttpGet]
-        [Route("findnumber/{courseCode:guid}")]
-        public async Task<ActionResult<Course>> GetCourseByCourseCodeAsync(Guid courseCode)
+        [Route("findnumber/{id:guid}")]
+        public async Task<ActionResult<Course>> GetCourseByIdAsync(Guid id)
         {
-
-
             try
             {
-
-                var result = await _unitOfWork.CourseRepository.GetCourseByCourseCodeAsync(courseCode);
+                var result = await _unitOfWork.CourseRepository.GetCourseByIdAsync(id);
                 return StatusCode(200, result);
             }
             catch (ValidationException e)
@@ -64,34 +61,43 @@ namespace edu_development_REST.Controllers
         /// </summary>
         /// <param name="model">A new CourseViewModel object</param>
         /// <response code="201">Successfully created a new Course</response>
-        /// <response code="500">Failed to create a new Coourse</response>
+        /// <response code="500">Failed to create a new Course</response>
         [HttpPost()]
         public async Task<ActionResult> AddCourse(CourseViewModel model)
         {
-            _unitOfWork.CourseRepository.Add(model);
-            if (await _unitOfWork.Complete())
+            try
             {
-                return StatusCode(201);
+                _unitOfWork.CourseRepository.Add(model);
+                var result = await _unitOfWork.Complete();
+                return StatusCode(201, model);
             }
 
-            return StatusCode(500, "Det gick inte att spara ner ny kurs");
+            catch (ValidationException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         /// <summary>
-        /// Updates properties on an existing post.
+        /// Updates properties on an existing course.
         /// </summary>
         /// <param name="id">This is an id of an existing Course</param>
         /// <param name="updatedCourse">This is the changes to the Course</param>
-        /// <response code="200">Successfully updated the Post</response>
+        /// <response code="201">Successfully updated the Course</response>
         /// <response code="400">Invalid Course Id</response>
         [HttpPatch("{id}")]
         public async Task<ActionResult> UpdateCourse(Guid id, CourseViewModel updatedCourse)
         {
-
-            _unitOfWork.CourseRepository.Update(updatedCourse, id);
-            if (await _unitOfWork.CourseRepository.SaveAllAsync()) return NoContent();
-
-            return StatusCode(500, "Det gick inte att uppdatera kursen");
+            try
+            {
+                _unitOfWork.CourseRepository.Update(updatedCourse, id);
+                await _unitOfWork.CourseRepository.SaveAllAsync();
+                return StatusCode(201, updatedCourse);
+            }
+            catch (ValidationException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         /// <summary>
@@ -100,16 +106,22 @@ namespace edu_development_REST.Controllers
         /// <param name="id">This is an id of an existing Course</param>
         /// <response code="200">Successfully deleted an existing Course</response>
         /// <response code="400">Invalid Course Code</response>
+        /// <response code="500">Course could not be removed</response>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCourse(Guid id)
         {
-            var course = await _unitOfWork.CourseRepository.GetCourseByCourseCodeAsync(id);
-            if (course == null) return NotFound($"Hittade ingen kurs med id: {id}");
+            try
+            {
+                var course = await _unitOfWork.CourseRepository.GetCourseByIdAsync(id);
+                _unitOfWork.CourseRepository.Delete(course);
+                var result = await  _unitOfWork.CourseRepository.SaveAllAsync();
+                return StatusCode(200);
 
-            _unitOfWork.CourseRepository.Delete(course);
-            if (await _unitOfWork.CourseRepository.SaveAllAsync()) return NoContent();
-
-            return StatusCode(500, "Det gick inte att ta bort kursen");
+            }
+            catch (ValidationException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

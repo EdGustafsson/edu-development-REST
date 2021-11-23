@@ -32,9 +32,9 @@ namespace edu_development_REST.Data
             _context.Entry(course).State = EntityState.Deleted;
         }
 
-        public async Task<Course> GetCourseByCourseCodeAsync(Guid courseCode)
+        public async Task<Course> GetCourseByIdAsync(Guid id)
         {
-            return await _context.Courses.SingleOrDefaultAsync(c => c.CourseCode == courseCode);
+            return await _context.Courses.SingleOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<IEnumerable<Course>> GetCoursesAsync()
@@ -45,7 +45,7 @@ namespace edu_development_REST.Data
         public void Update(CourseViewModel updatedCourse, Guid id)
         {
             var course = _mapper.Map<Course>(updatedCourse);
-            course.CourseCode = id;
+            course.Id = id;
             _context.Entry(course).State = EntityState.Modified;
         }
 

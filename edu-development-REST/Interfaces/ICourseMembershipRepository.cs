@@ -12,5 +12,7 @@ namespace edu_development_REST.Interfaces
         void Add(CourseMembershipViewModel courseMembership);
         Task<IEnumerable<CourseMembership>> GetCourseMembershipsAsync();
         void Update(CourseMembershipViewModel updatedCourseMembership, Guid id);
+
+        Task<bool> SaveAllAsync();
     }
 }

@@ -39,6 +39,10 @@ namespace edu_development_REST.Data
             _context.Entry(courseMembership).State = EntityState.Modified;
         }
 
+        public async Task<bool> SaveAllAsync()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
 
 
     }

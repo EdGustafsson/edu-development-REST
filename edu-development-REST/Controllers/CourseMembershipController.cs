@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using edu_development_REST.ViewModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace edu_development_REST.Controllers
 {
@@ -44,37 +45,54 @@ namespace edu_development_REST.Controllers
         /// <response code="400">Failed to create a new Course Membership</response>
         [HttpPost()]
         public async Task<ActionResult> AddCourseMembership(CourseMembershipViewModel courseMembership)
-        {
-            var user = await _unitOfWork.UserRepository.GetUserByIdAsync(courseMembership.UserId);
-            if (user == null) return BadRequest($"Användaren kunde inte hittas");
-
-            var course = await _unitOfWork.CourseRepository.GetCourseByCourseCodeAsync(courseMembership.CourseId);
-            if (course == null) return BadRequest($"Kursen kunde inte hittas");
-
-            _unitOfWork.CourseMembershipRepository.Add(courseMembership);
-
-            if (await _unitOfWork.Complete())
+        { 
+            try
             {
-                return StatusCode(201);
+                var user = await _unitOfWork.UserRepository.GetUserByIdAsync(courseMembership.UserId);
+                if (user == null) return BadRequest($"User Id could not be found");
+
+                var course = await _unitOfWork.CourseRepository.GetCourseByIdAsync(courseMembership.CourseId);
+                if (course == null) return BadRequest($"Course Id could not be found");
+
+                _unitOfWork.CourseMembershipRepository.Add(courseMembership);
+                await _unitOfWork.Complete();
+
+                return StatusCode(201, courseMembership);
+            }
+            catch (ValidationException e)
+            {
+                return BadRequest(e.Message);
             }
 
-            return StatusCode(500, "Det gick inte att spara använvaden");
+
         }
 
         /// <summary>
         /// Updates properties on an existing post.
         /// </summary>
         /// <param name="id">This is an id of an existing Course Membership</param>
-        /// <param name="updatedCourse">This is the changes to the Course Membership</param>
+        /// <param name="updatedCourseMembership">This is the changes to the Course Membership</param>
         /// <response code="200">Successfully updated the Course Membership</response>
         /// <response code="400">Invalid Course Membership Id</response>
         [HttpPatch("{id}")]
-        public async Task<ActionResult> UpdateCourseMembership(Guid id, CourseMembershipViewModel updatedCourse)
+        public async Task<ActionResult> UpdateCourseMembership(Guid id, CourseMembershipViewModel updatedCourseMembership)
         {
-            _unitOfWork.CourseMembershipRepository.Update(updatedCourse, id);
-            if (await _unitOfWork.CourseRepository.SaveAllAsync()) return NoContent();
+            try
+            {
+                var user = await _unitOfWork.UserRepository.GetUserByIdAsync(updatedCourseMembership.UserId);
+                if (user == null) return BadRequest($"User Id could not be found");
 
-            return StatusCode(500, "Det gick inte att uppdatera kursen");
+                var course = await _unitOfWork.CourseRepository.GetCourseByIdAsync(updatedCourseMembership.CourseId);
+                if (course == null) return BadRequest($"Course Id could not be found");
+
+                _unitOfWork.CourseMembershipRepository.Update(updatedCourseMembership, id);
+                await _unitOfWork.CourseRepository.SaveAllAsync();
+                return StatusCode(201, updatedCourseMembership);
+            }
+            catch (ValidationException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

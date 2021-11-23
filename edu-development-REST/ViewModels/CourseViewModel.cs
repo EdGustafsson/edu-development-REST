@@ -6,13 +6,21 @@ namespace edu_development_REST.ViewModels
 {
     public class CourseViewModel
 
-    {   /// <summary>
+    {
+
+        /// <summary>
         /// A human readable course name, using only alphanumeric characters
         /// </summary>
-        /// <example>Anders123</example>
+        /// <example>MATMAT02A-KD</example>
         [Required]
-        [RegularExpression(@"^[a-zA-Z0-9]*$",
-            ErrorMessage = "First name can only contain alphanumeric characters")]
+        public string CourseCode { get; set; }
+
+
+        /// <summary>
+        /// A human readable course name, using only alphanumeric characters
+        /// </summary>
+        /// <example>English 101</example>
+        [Required]
         public string Name { get; set; }
 
         /// <summary>
