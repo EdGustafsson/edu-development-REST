@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using edu_development_REST.ViewModels;
 
 namespace edu_development_REST.Data
 {
@@ -28,7 +29,7 @@ namespace edu_development_REST.Data
         {
             return await _context.Users.ToListAsync();
         }
-        public void Add(User user)
+        public void Add(UserViewModel user)
         {
             var newUser = _mapper.Map<User>(user);
             _context.Entry(newUser).State = EntityState.Added;
@@ -37,7 +38,7 @@ namespace edu_development_REST.Data
         {
             _context.Entry(user).State = EntityState.Deleted;
         }
-        public void Update(User updatedUser, Guid id)
+        public void Update(UserViewModel updatedUser, Guid id)
         {
             var user = _mapper.Map<User>(updatedUser);
             user.Id = id;

@@ -16,12 +16,13 @@ namespace edu_development_REST.Entities
         /// </summary>
         /// <example>bc3fd254-3eea-4da8-8f45-dbd69030c306</example>
         [Required]
+        [Key]
         public Guid Id { get; set; }
 
         /// <summary>
         /// A human readable first name, using only alphanumeric characters
         /// </summary>
-        /// <example>Anders123</example>
+        /// <example>Anders</example>
         [Required]
         [Column(TypeName = "VARCHAR(50)")]
         [RegularExpression(@"^[a-zA-Z0-9]*$",
@@ -31,7 +32,7 @@ namespace edu_development_REST.Entities
         /// <summary>
         /// A human readable last name, using only alphanumeric characters
         /// </summary>
-        /// <example>Anders123</example>
+        /// <example>Andersson</example>
         [Required]
         [Column(TypeName = "VARCHAR(50)")]
         [RegularExpression(@"^[a-zA-Z0-9]*$",

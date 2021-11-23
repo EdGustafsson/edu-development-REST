@@ -26,9 +26,10 @@ namespace edu_development_REST
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IConfiguration _config;
+        public Startup(IConfiguration config)
         {
-            Configuration = configuration;
+            _config = config;
         }
 
         public IConfiguration Configuration { get; }
@@ -38,7 +39,7 @@ namespace edu_development_REST
         {
             services.AddDbContext<DataContext>(options =>
             {
-                // options.UseSqlite(_config.GetConnectionString("DefaultConnection"));
+                options.UseSqlite(_config.GetConnectionString("DefaultConnection"));
                 // options.UseSqlServer(_config.GetConnectionString("DefaultConnection"));
             });
 
@@ -47,6 +48,8 @@ namespace edu_development_REST
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<ICourseMembershipRepository, CourseMembershipRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
             services.AddControllers();
@@ -59,6 +62,10 @@ namespace edu_development_REST
                     Title = "Edu Test API",
                     Description = "Edu API "
                 });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                e.IncludeXmlComments(xmlPath);
 
             });
         }

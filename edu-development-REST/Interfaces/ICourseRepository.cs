@@ -8,11 +8,11 @@ namespace edu_development_REST.Interfaces
 {
     public interface ICourseRepository
     {
-        void Add(Course course);
+        void Add(CourseViewModel course);
         Task<IEnumerable<Course>> GetCoursesAsync();
         Task<Course> GetCourseByCourseCodeAsync(Guid id);
         void Delete(Course course);
         Task<bool> SaveAllAsync();
-        void Update(Course updatedCourse, Guid id);
+        void Update(CourseViewModel updatedCourse, Guid id);
     }
 }

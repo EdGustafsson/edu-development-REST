@@ -9,8 +9,8 @@ namespace edu_development_REST.Interfaces
 {
     public interface ICourseMembershipRepository
     {
-        void Add(CourseMembership courseMembership);
+        void Add(CourseMembershipViewModel courseMembership);
         Task<IEnumerable<CourseMembership>> GetCourseMembershipsAsync();
-        void Update(CourseMembership updatedCourseMembership, Guid id);
+        void Update(CourseMembershipViewModel updatedCourseMembership, Guid id);
     }
 }

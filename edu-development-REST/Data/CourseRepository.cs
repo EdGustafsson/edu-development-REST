@@ -21,7 +21,7 @@ namespace edu_development_REST.Data
             _mapper = mapper;
         }
 
-        public void Add(Course course)
+        public void Add(CourseViewModel course)
         {
             var newCourse = _mapper.Map<Course>(course);
             _context.Entry(newCourse).State = EntityState.Added;
@@ -42,7 +42,7 @@ namespace edu_development_REST.Data
             return await _context.Courses.ToListAsync();
         }
 
-        public void Update(Course updatedCourse, Guid id)
+        public void Update(CourseViewModel updatedCourse, Guid id)
         {
             var course = _mapper.Map<Course>(updatedCourse);
             course.CourseCode = id;

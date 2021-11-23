@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace edu_development_REST.Entities
 {
+    [Table("CourseMembership", Schema = "CourseMemberships")]
     public class CourseMembership
     {
         /// <summary>
@@ -14,6 +16,7 @@ namespace edu_development_REST.Entities
         /// </summary>
         /// <example>bc3fd254-3eea-4da8-8f45-dbd69030c306</example>
         [Required]
+        [Key]
         public Guid Id { get; set; }
 
         /// <summary>

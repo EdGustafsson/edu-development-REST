@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using edu_development_REST.ViewModels;
 
 namespace edu_development_REST.Data
 {
@@ -25,13 +26,13 @@ namespace edu_development_REST.Data
         {
             return await _context.CourseMemberships.ToListAsync();
         }
-        public void Add(CourseMembership courseMembership)
+        public void Add(CourseMembershipViewModel courseMembership)
         {
             var newCourseMembership = _mapper.Map<CourseMembership>(courseMembership);
             _context.Entry(newCourseMembership).State = EntityState.Added;
         }
 
-        public void Update(CourseMembership updatedCourseMembership, Guid id)
+        public void Update(CourseMembershipViewModel updatedCourseMembership, Guid id)
         {
             var courseMembership = _mapper.Map<CourseMembership>(updatedCourseMembership);
             courseMembership.Id = id;
