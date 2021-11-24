@@ -39,8 +39,8 @@ namespace edu_development_REST
         {
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlite(_config.GetConnectionString("DefaultConnection"));
-                // options.UseSqlServer(_config.GetConnectionString("DefaultConnection"));
+                 // options.UseSqlite(_config.GetConnectionString("DefaultConnection"));
+                    options.UseSqlServer(_config.GetConnectionString("DefaultConnection"));
             });
 
 

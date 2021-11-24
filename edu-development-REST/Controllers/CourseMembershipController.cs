@@ -68,7 +68,7 @@ namespace edu_development_REST.Controllers
         }
 
         /// <summary>
-        /// Updates properties on an existing post.
+        /// Updates properties on an existing Course Membership.
         /// </summary>
         /// <param name="id">This is an id of an existing Course Membership</param>
         /// <param name="updatedCourseMembership">This is the changes to the Course Membership</param>
