@@ -60,7 +60,7 @@ namespace edu_development_REST
                 {
                     Version = "v1",
                     Title = "Edu Test API",
-                    Description = "Edu API "
+                    Description = "A simple educational API designed to showcase Swagger and OpenApi"
                 });
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -87,6 +87,7 @@ namespace edu_development_REST
             app.UseSwaggerUI(e =>
             {
                 e.SwaggerEndpoint("/swagger/v1/swagger.json", "Edu Test API V1");
+                e.RoutePrefix = string.Empty;
             }
             );
 

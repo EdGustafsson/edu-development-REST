@@ -5,6 +5,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <RootNamespace>edu_development_REST</RootNamespace>
+    <UserSecretsId>ee0280e2-6f68-46a4-86da-edaac12374e4</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
