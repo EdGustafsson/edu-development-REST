@@ -15,8 +15,8 @@ namespace edu_development_REST.Controllers
     /// <summary>
     /// Controller for working with the Course Memberships
     /// </summary>
-    [Route("api/coursemembership")]
     [ApiController]
+    [Route("api/[controller]")]
     public class CourseMembershipController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;

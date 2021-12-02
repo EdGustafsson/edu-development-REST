@@ -18,6 +18,7 @@ namespace edu_development_REST.Helpers
 
             CreateMap<CourseMembershipViewModel, CourseMembership>();
 
+
         }
     }
 }

@@ -15,8 +15,8 @@ namespace edu_development_REST.Controllers
     /// <summary>
     /// Controller for working with the Users
     /// </summary>
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;

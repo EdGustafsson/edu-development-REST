@@ -47,5 +47,6 @@ namespace edu_development_REST.Entities
         /// <example>2021-11-11T12:00:00.0000000+01:00</example>
         [Required]
         public DateTime EndDate { get;  set; }
+
     }
 }

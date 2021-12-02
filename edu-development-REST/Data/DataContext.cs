@@ -11,6 +11,8 @@ namespace edu_development_REST.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Course> Courses { get; set; }
+        public DbSet<UserSource> UserSources { get; set; }
+        public DbSet<CourseSource> CourseSources { get; set; }
         public DbSet<CourseMembership> CourseMemberships { get; set; }
         public DataContext(DbContextOptions options) : base(options)
         {

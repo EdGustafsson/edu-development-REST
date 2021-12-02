@@ -11,6 +11,8 @@ namespace edu_development_REST.Interfaces
         IUserRepository UserRepository { get; }
         ICourseRepository CourseRepository { get; }
         ICourseMembershipRepository CourseMembershipRepository { get; }
+        IUserSourceRepository UserSourceRepository { get; }
+        ICourseSourceRepository CourseSourceRepository { get;  }
         Task<bool> Complete();
         bool HasChanges();
     }
