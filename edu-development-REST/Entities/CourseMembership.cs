@@ -12,7 +12,7 @@ namespace edu_development_REST.Entities
     public class CourseMembership
     {
         /// <summary>
-        /// A unique Guid id
+        /// A unique Guid id referencing a course
         /// </summary>
         /// <example>bc3fd254-3eea-4da8-8f45-dbd69030c306</example>
         [Required]
@@ -20,7 +20,7 @@ namespace edu_development_REST.Entities
         public Guid Id { get; set; }
 
         /// <summary>
-        ///  A unique Guid id
+        ///  A unique Guid id referencing a user
         /// </summary>
         /// <example>bc3fd254-3eea-4da8-8f45-dbd69030c306</example>
         [Required]
