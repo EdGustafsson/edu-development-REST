@@ -21,8 +21,6 @@ namespace edu_development_REST.Data
         public IUserRepository UserRepository => new UserRepository(_context, _mapper);
         public ICourseRepository CourseRepository => new CourseRepository(_context, _mapper);
         public ICourseMembershipRepository CourseMembershipRepository => new CourseMembershipRepository(_context, _mapper);
-        public IUserSourceRepository UserSourceRepository => new UserSourceRepository(_context, _mapper);
-        public ICourseSourceRepository CourseSourceRepository => new CourseSourceRepository(_context, _mapper);
 
         public async Task<bool> Complete()
         {

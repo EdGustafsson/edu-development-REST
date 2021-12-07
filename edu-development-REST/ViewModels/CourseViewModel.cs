@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations;
 namespace edu_development_REST.ViewModels
 {
     public class CourseViewModel
-
     {
 
         /// <summary>
@@ -14,7 +13,6 @@ namespace edu_development_REST.ViewModels
         /// <example>MATMAT02A-KD</example>
         [Required]
         public string CourseCode { get; set; }
-
 
         /// <summary>
         /// A human readable course name, using only alphanumeric characters
