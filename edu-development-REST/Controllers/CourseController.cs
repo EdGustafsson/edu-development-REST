@@ -1,11 +1,11 @@
 ﻿using edu_development_REST.Entities;
 using edu_development_REST.Interfaces;
+using edu_development_REST.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using edu_development_REST.ViewModels;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -114,7 +114,7 @@ namespace edu_development_REST.Controllers
             {
                 var course = await _unitOfWork.CourseRepository.GetCourseByIdAsync(id);
                 _unitOfWork.CourseRepository.Delete(course);
-                var result = await  _unitOfWork.CourseRepository.SaveAllAsync();
+                var result = await _unitOfWork.CourseRepository.SaveAllAsync();
                 return StatusCode(200);
 
             }

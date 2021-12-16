@@ -1,13 +1,11 @@
 ﻿using edu_development_REST.Entities;
 using edu_development_REST.Interfaces;
-using Microsoft.AspNetCore.Http;
+using edu_development_REST.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using edu_development_REST.ViewModels;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace edu_development_REST.Controllers
 {
@@ -67,7 +65,7 @@ namespace edu_development_REST.Controllers
         /// <response code="400">Failed to create a new Course Membership</response>
         [HttpPost()]
         public async Task<ActionResult> AddCourseMembership(CourseMembershipViewModel courseMembership)
-        { 
+        {
             try
             {
                 var user = await _unitOfWork.UserRepository.GetUserByIdAsync(courseMembership.UserId);
