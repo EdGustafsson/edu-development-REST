@@ -14,5 +14,7 @@ namespace edu_development_REST.Interfaces
         void Update(CourseMembershipViewModel updatedCourseMembership, Guid id);
 
         Task<bool> SaveAllAsync();
+
+        Task<CourseMembership> GetCourseMembershipByIdAsync(Guid id);
     }
 }

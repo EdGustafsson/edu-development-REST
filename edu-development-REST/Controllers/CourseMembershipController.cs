@@ -27,6 +27,7 @@ namespace edu_development_REST.Controllers
             _unitOfWork = unitOfWork;
         }
 
+
         /// <summary>
         /// Fetches all Course Memberships.
         /// </summary>
@@ -35,6 +36,27 @@ namespace edu_development_REST.Controllers
         public async Task<ActionResult<IEnumerable<CourseMembership>>> GetCourseMemberships()
         {
             return Ok(await _unitOfWork.CourseMembershipRepository.GetCourseMembershipsAsync());
+        }
+
+        /// <summary>
+        /// Fetches a CourseMembership based on the given Id.
+        /// </summary>
+        /// <param name="id">This is an Id of an existing CourseMembership</param>
+        /// <response code="200">Returns the CourseMembership with the given Id</response>
+        /// <response code="204">No CourseMembership with the given Id found </response>
+        [HttpGet]
+        [Route("findnumber/{id:guid}")]
+        public async Task<ActionResult<CourseMembership>> GetCourseMembershipByIdAsync(Guid id)
+        {
+            try
+            {
+                var result = await _unitOfWork.CourseMembershipRepository.GetCourseMembershipByIdAsync(id);
+                return StatusCode(200, result);
+            }
+            catch (ValidationException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         /// <summary>

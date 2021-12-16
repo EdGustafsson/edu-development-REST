@@ -26,6 +26,11 @@ namespace edu_development_REST.Data
         {
             return await _context.CourseMemberships.ToListAsync();
         }
+
+        public async Task<CourseMembership> GetCourseMembershipByIdAsync(Guid id)
+        {
+            return await _context.CourseMemberships.SingleOrDefaultAsync(c => c.Id == id);
+        }
         public void Add(CourseMembershipViewModel courseMembership)
         {
             var newCourseMembership = _mapper.Map<CourseMembership>(courseMembership);
@@ -43,7 +48,5 @@ namespace edu_development_REST.Data
         {
             return await _context.SaveChangesAsync() > 0;
         }
-
-
     }
 }
